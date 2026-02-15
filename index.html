@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab W04</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-base-200 min-h-screen">
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-primary">Lab W04</h1>
+        
+        <!-- Exercise 1: Leap Year Checker -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">Exercise 1: Leap Year Checker</h2>
+                <p class="mb-4">Check if a year is a leap year or not.</p>
+                <div class="form-control">
+                    <button onclick="checkLeapYear()" class="btn btn-primary">Check Leap Year</button>
+                </div>
+                <div id="leapYearResult" class="mt-4 p-4 bg-base-200 rounded-lg hidden">
+                    <p class="font-semibold">Result:</p>
+                    <p id="leapYearText"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 2: Array to String -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">Exercise 2: Array to String</h2>
+                <p class="mb-4">Join array elements into a string using a for loop.</p>
+                <div class="form-control">
+                    <button onclick="joinArray()" class="btn btn-primary">Join Array</button>
+                </div>
+                <div id="arrayResult" class="mt-4 p-4 bg-base-200 rounded-lg hidden">
+                    <p class="font-semibold">Array: ["Red", "Green", "White", "Black"]</p>
+                    <p class="font-semibold mt-2">Result:</p>
+                    <p id="arrayText" class="text-success font-mono"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 3: Greeting Based on Time -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">Exercise 3: Time-Based Greeting</h2>
+                <p class="mb-4">Display greeting based on current time.</p>
+                <div class="form-control">
+                    <button onclick="showGreeting()" class="btn btn-primary">Show Greeting</button>
+                </div>
+                <div id="greetingResult" class="mt-4 p-4 bg-base-200 rounded-lg hidden">
+                    <p class="font-semibold">Current Time: <span id="currentTime"></span></p>
+                    <p class="font-semibold mt-2">Greeting:</p>
+                    <p id="greetingText" class="text-2xl text-accent"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 4: Caesar Cipher -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">Exercise 4: Caesar Cipher</h2>
+                <p class="mb-4">Encrypt and decrypt messages using Caesar cipher technique.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Encrypt Section -->
+                    <div class="border border-primary rounded-lg p-4">
+                        <h3 class="text-xl font-semibold mb-4 text-primary">Encrypt</h3>
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text">Enter text to encrypt:</span>
+                            </label>
+                            <input type="text" id="encryptInput" placeholder="Hello world!" class="input input-bordered w-full" />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text">Shift value:</span>
+                            </label>
+                            <input type="number" id="encryptShift" value="3" class="input input-bordered w-full" />
+                        </div>
+                        <button onclick="encryptText()" class="btn btn-primary w-full">Encrypt</button>
+                        <div id="encryptResult" class="mt-4 p-4 bg-base-200 rounded-lg hidden">
+                            <p class="font-semibold">Encrypted Text:</p>
+                            <p id="encryptedText" class="text-success font-mono break-all"></p>
+                        </div>
+                    </div>
+
+                    <!-- Decrypt Section -->
+                    <div class="border border-secondary rounded-lg p-4">
+                        <h3 class="text-xl font-semibold mb-4 text-secondary">Decrypt</h3>
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text">Enter text to decrypt:</span>
+                            </label>
+                            <input type="text" id="decryptInput" placeholder="Khoor zruog!" class="input input-bordered w-full" />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text">Shift value:</span>
+                            </label>
+                            <input type="number" id="decryptShift" value="3" class="input input-bordered w-full" />
+                        </div>
+                        <button onclick="decryptText()" class="btn btn-secondary w-full">Decrypt</button>
+                        <div id="decryptResult" class="mt-4 p-4 bg-base-200 rounded-lg hidden">
+                            <p class="font-semibold">Decrypted Text:</p>
+                            <p id="decryptedText" class="text-warning font-mono break-all"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Exercise 1: Leap Year Checker
+        function checkLeapYear() {
+            const year = prompt("Enter a year:");
+            
+            if (year === null || year === "") {
+                alert("Please enter a valid year!");
+                return;
+            }
+            
+            const yearNum = parseInt(year);
+            let isLeapYear = false;
+            
+            // Leap year logic: divisible by 4, but not by 100 unless also divisible by 400
+            if ((yearNum % 4 === 0 && yearNum % 100 !== 0) || (yearNum % 400 === 0)) {
+                isLeapYear = true;
+            }
+            
+            const resultDiv = document.getElementById("leapYearResult");
+            const resultText = document.getElementById("leapYearText");
+            
+            if (isLeapYear) {
+                resultText.textContent = `${yearNum} is a leap year! 🎉`;
+                resultText.className = "text-success text-xl";
+            } else {
+                resultText.textContent = `${yearNum} is not a leap year.`;
+                resultText.className = "text-error text-xl";
+            }
+            
+            resultDiv.classList.remove("hidden");
+        }
+
+        // Exercise 2: Array to String
+        function joinArray() {
+            const myColor = ["Red", "Green", "White", "Black"];
+            let result = "";
+            
+            // Using for loop to join array elements
+            for (let i = 0; i < myColor.length; i++) {
+                result += myColor[i];
+                if (i < myColor.length - 1) {
+                    result += ",";
+                }
+            }
+            
+            const resultDiv = document.getElementById("arrayResult");
+            const resultText = document.getElementById("arrayText");
+            
+            resultText.textContent = result;
+            resultDiv.classList.remove("hidden");
+        }
+
+        // Exercise 3: Time-Based Greeting
+        function showGreeting() {
+            const d = new Date();
+            const hour = d.getHours();
+            let greeting = "";
+            
+            if (hour >= 5 && hour < 12) {
+                greeting = "Good Morning! ☀️";
+            } else if (hour >= 12 && hour < 18) {
+                greeting = "Good Afternoon! 🌤️";
+            } else {
+                greeting = "Good Evening! 🌙";
+            }
+            
+            const currentTimeText = d.toLocaleTimeString();
+            
+            document.getElementById("currentTime").textContent = currentTimeText;
+            document.getElementById("greetingText").textContent = greeting;
+            document.getElementById("greetingResult").classList.remove("hidden");
+        }
+
+        // Exercise 4: Caesar Cipher - Encrypt
+        function encryptText() {
+            const text = document.getElementById("encryptInput").value;
+            const shift = parseInt(document.getElementById("encryptShift").value);
+            
+            if (!text) {
+                alert("Please enter text to encrypt!");
+                return;
+            }
+            
+            let encrypted = "";
+            
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let charCode = char.charCodeAt(0);
+                
+                // Check if uppercase letter
+                if (charCode >= 65 && charCode <= 90) {
+                    encrypted += String.fromCharCode(((charCode - 65 + shift) % 26) + 65);
+                }
+                // Check if lowercase letter
+                else if (charCode >= 97 && charCode <= 122) {
+                    encrypted += String.fromCharCode(((charCode - 97 + shift) % 26) + 97);
+                }
+                // Keep non-alphabetic characters as is
+                else {
+                    encrypted += char;
+                }
+            }
+            
+            document.getElementById("encryptedText").textContent = encrypted;
+            document.getElementById("encryptResult").classList.remove("hidden");
+        }
+
+        // Exercise 4: Caesar Cipher - Decrypt
+        function decryptText() {
+            const text = document.getElementById("decryptInput").value;
+            const shift = parseInt(document.getElementById("decryptShift").value);
+            
+            if (!text) {
+                alert("Please enter text to decrypt!");
+                return;
+            }
+            
+            let decrypted = "";
+            
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let charCode = char.charCodeAt(0);
+                
+                // Check if uppercase letter
+                if (charCode >= 65 && charCode <= 90) {
+                    decrypted += String.fromCharCode(((charCode - 65 - shift + 26) % 26) + 65);
+                }
+                // Check if lowercase letter
+                else if (charCode >= 97 && charCode <= 122) {
+                    decrypted += String.fromCharCode(((charCode - 97 - shift + 26) % 26) + 97);
+                }
+                // Keep non-alphabetic characters as is
+                else {
+                    decrypted += char;
+                }
+            }
+            
+            document.getElementById("decryptedText").textContent = decrypted;
+            document.getElementById("decryptResult").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
